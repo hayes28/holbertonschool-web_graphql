@@ -58,6 +58,7 @@ const ProjectType = new GraphQLObjectType({
     })
 });
 
+// Define the root query with the task and project fields
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
@@ -79,6 +80,20 @@ const RootQuery = new GraphQLObjectType({
             resolve: (parent, args) => {
                 // Using lodash to find the project with the id passed in the args
                 return _.find(projects, { id: args.id });
+            }
+        },
+        tasks: {
+            type: new GraphQLList(TaskType),
+            resolve: (parent, args) => {
+                // Using lodash to return all the tasks
+                return tasks;
+            }
+        },
+        projects: {
+            type: new GraphQLList(ProjectType),
+            resolve: (parent, args) => {
+                // Using lodash to return all the projects
+                return projects;
             }
         }
     }
