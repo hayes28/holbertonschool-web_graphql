@@ -5,8 +5,11 @@ const {
     GraphQLInt,
     GraphQLID,
     GraphQLList,
+    GraphQLNonNull
 } = require('graphql');
 const _ = require('lodash');
+const Project = require('../models/project');
+const Task = require('../models/task');
 
 // Dummy data for the tasks
 const tasks = [
@@ -99,6 +102,52 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
+// Define the mutation to add a task and project
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        addTask: {
+            type: TaskType,
+            args: {
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                weight: { type: new GraphQLNonNull(GraphQLInt) },
+                description: { type: new GraphQLNonNull(GraphQLString) },
+                projectId: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve: (parent, args) => {
+                // Create a new task with the args
+                let task = new Task({
+                    title: args.title,
+                    weight: args.weight,
+                    description: args.description,
+                    projectId: args.projectId
+                });
+                // Save the task in the database
+                return task.save();
+            }
+        },
+        addProject: {
+            type: ProjectType,
+            args: {
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                weight: { type: new GraphQLNonNull(GraphQLInt) },
+                description: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve: (parent, args) => {
+                // Create a new project with the args
+                let project = new Project({
+                    title: args.title,
+                    weight: args.weight,
+                    description: args.description
+                });
+                // Save the project in the database
+                return project.save();
+            }
+        }
+    }
+});
+
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 });
