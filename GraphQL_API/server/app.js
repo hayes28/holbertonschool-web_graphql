@@ -1,8 +1,17 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
+const mongoose = require('mongoose');
 
 const app = express();
+
+// connect MongoDB Atlas database
+const mongoDBAtlasUri = 'mongodb+srv://hayes28:Password@atlascluster.tqd66ql.mongodb.net/?retryWrites=true&w=majority';
+
+mongoose.connect(mongoDBAtlasUri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connection.once('open', () => {
+    console.log('connected to database');
+});
 
 app.use('/graphql', graphqlHTTP({
     schema,
