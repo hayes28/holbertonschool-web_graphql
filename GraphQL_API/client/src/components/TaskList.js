@@ -1,18 +1,10 @@
-import { gql } from "apollo-boost";
+// import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import React, { useState } from 'react';
 // components
 import TaskDetails from './TaskDetails';
+import { getTasksQuery } from '../queries/queries';
 
-// Define your GraphQL query
-const getTasksQuery = gql`
-  {
-    tasks {
-      id
-      title
-    }
-  }
-`;
 
 function TaskList(props) {
   const [state, setState] = useState({
