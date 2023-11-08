@@ -1,7 +1,5 @@
-import {
-  useState,
-  //useEffect
-} from "react";
+import React, { useState } from 'react';
+import { AddProjectMutation } from '../queries/queries.js';
 
 
 function AddProject(props) {
@@ -22,15 +20,23 @@ function AddProject(props) {
     setInputsProject(newInputsProject)
   }
 
-  return ( <
-    form class = "project"
-    id = "add-project"
-    /*onSubmit = {...}*/ >
-    <
-    div className = "field" >
-    <
-    label > Project title: < /label> <
-    input type = "text"
+  const subitForm1 = (e) => {
+    e.preventDefault();
+    props.addProjectMutation({
+      variables: {
+        title: inputsProject.title,
+        weight: inputsProject.weight,
+        description: inputsProject.description,
+        user_id: props.user_id
+  },
+  refetchQueries: [{ query: getProjectsQuery }]
+});
+}
+
+  return ( <form class = "project" id = "add-project" onSubmit = {subitForm1}>
+    <div className = "field" >
+    <label > Project title: </label>
+    <input type = "text"
     name = "title"
     onChange = {
       handleChange
@@ -38,12 +44,9 @@ function AddProject(props) {
     value = {
       inputsProject.title
     }
-    / > < /
-    div > <
-    div className = "field" >
-    <
-    label > Weight: < /label> <
-    input type = "number"
+    /> </div > <div className = "field" >
+    <label > Weight: </label>
+    <input type = "number"
     name = "weight"
     onChange = {
       handleChange
@@ -51,25 +54,21 @@ function AddProject(props) {
     value = {
       inputsProject.weight
     }
-    / > < /
-    div >
-    <
-    div className = "field" >
-    <
-    label > description: < /label> <
-    textarea name = "description"
+    / > </div >
+    <div className = "field" >
+    <label > description: </label>
+    <textarea name = "description"
     onChange = {
       handleChange
     }
     value = {
       inputsProject.description
     }
-    / > < /
-    div >
-    <
-    button > + < /button> < /
-    form >
+    / > </div >
+    <button > + </button> </form >
   );
 }
 
-export default AddProject;
+export default compose(
+graphql(addProjectMutation, {name: "addProjectMutation" })
+)(AddProject);

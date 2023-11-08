@@ -1,11 +1,12 @@
 import { graphql } from "react-apollo";
 // import { gql } from 'apollo-boost';
 import React, { useState } from "react";
+import { flowRight as compose } from "lodash";
 import { getProjectsQuery } from "../queries/queries";
 
 function AddTask(props) {
   function displayProjects() {
-    const { loading, projects } = props.data;
+    const { loading, projects } = props.getProjectsQuery;
     if (loading) {
       return <option disabled>Loading projects...</option>;
     } else {
@@ -35,10 +36,21 @@ function AddTask(props) {
         setInputs(newInputs)
   }
 
+  const subitForm = (e) => {
+    e.preventDefault();
+    props.addTaskMutation({
+      variables: {
+        title: inputs.title,
+        weight: parseInt(inputs.weight),
+        description: inputs.description,
+        projectId: inputs.projectId
+      },
+      refetchQueries: [{ query: getTasksQuery }]
+    });
+  }
+
   return (
-  <form class = "task"
-    id = "add-task"
-    /*onSubmit = {...}*/ >
+  <form class = "task" id = "add-task" onSubmit = {subitForm}>
     <div className = "field" >
     <label > Task title: </label>
     <input type = "text"
@@ -92,8 +104,11 @@ function AddTask(props) {
     }
     </select > </div >
     <button > + </button>
-    </form >
+    </form>
   );
 }
 
-export default graphql(getProjectsQuery)(AddTask);
+export default compose(
+  graphql(getProjectsQuery, { name: "getProjectsQuery" }),
+  graphql(addTaskMutation, { name: "addTaskMutation" })
+)(AddTask);
