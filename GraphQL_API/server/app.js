@@ -2,8 +2,11 @@ const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors()); // allow cross-origin requests
 
 // connect MongoDB Atlas database
 const mongoDBAtlasUri = 'mongodb+srv://hayes28:Password@atlascluster.tqd66ql.mongodb.net/?retryWrites=true&w=majority';
