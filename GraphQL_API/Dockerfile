@@ -14,10 +14,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 # Exposing the Port
-EXPOSE 4000
+EXPOSE 4000 3000
 
 # Copy the entire app
 COPY . .
-
-# # Running the Application
-# CMD ["node", "server.js"]

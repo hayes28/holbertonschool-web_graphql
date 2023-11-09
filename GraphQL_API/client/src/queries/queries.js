@@ -20,17 +20,27 @@ const getProjectsQuery = gql`
 
 const addTaskMutation = gql`
     mutation($title: String!, $weight: Int!, $description: String!, $projectId: ID!) {
-    addTask(title: $title, weight: , description: $description, projectId: $projectId) {
-        title
-        id
-    }
+        addTask(
+            title: $title,
+            weight: $weight,
+            description: $description,
+            projectId: $projectId)
+            {
+            title
+            id
+        }
     }
 `;
 
 const addProjectMutation = gql`
-    mutation($title: String!) {
-    addProject(title: $title) {
+    mutation($title: String!, $weight: Int!, $description: String!) {
+    addProject(
+        title: $title,
+        weight: $weight,
+        description: $description)
+        {
         title
+        id
     }
     }
 `;
@@ -45,12 +55,10 @@ const getTaskDetailQuery = gql`
         project {
             id
             title
-            weight
             description
         tasks {
             id
             title
-            weight
         }
         }
     }
