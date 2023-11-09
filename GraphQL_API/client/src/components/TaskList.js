@@ -1,4 +1,3 @@
-// import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import React, { useState } from 'react';
 // components
