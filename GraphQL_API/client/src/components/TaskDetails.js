@@ -12,7 +12,7 @@ function TaskDetails(props) {
     const {
       task
     } = props.data;
-    if (task) {
+    if (task && task.project && task.project.tasks) {
       return (<div>
         <h2> Title of task: {
           task.title

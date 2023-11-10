@@ -49,7 +49,7 @@ function AddTask(props) {
   }
 
   return (
-  <form class = "task" id = "add-task" onSubmit = {subitForm}>
+  <form className = "task" id = "add-task" onSubmit = {subitForm}>
     <div className = "field" >
     <label > Task title: </label>
     <input type = "text"
@@ -60,9 +60,8 @@ function AddTask(props) {
     value = {
       inputs.title
     }
-    required /
-    >
-    </div >
+    required/>
+    </div>
     <div className = "field" >
     <label > Weight: </label>
     <input type = "number"
@@ -73,36 +72,20 @@ function AddTask(props) {
     value = {
       inputs.weight
     }
-    required />
-    </div >
-    <div className = "field" >
-    <label > description: </label>
-    <textarea name = "description"
-    onChange = {
-      handleChange
-    }
-    value = {
-      inputs.description
-    }
-    required />
-    </div >
-    <div className = "field" >
-    <label > Project: </label>
-    <select name = "projectId"
-    onChange = {
-      handleChange
-    }
-    value = {
-      inputs.projectId
-    }
-    required > < option value = ""
-    selected = "selected"
-    disabled = "disabled" > Select project </option>
-    {
-      displayProjects()
-    }
-    </select > </div >
-    <button > + </button>
+    required/>
+    </div>
+      <div className="field">
+        <label>Project:</label>
+        <select
+          name="projectId"
+          onChange={handleChange}
+          value={inputs.projectId}
+          required>
+          <option value="" disabled>Select project</option>
+          {displayProjects()}
+        </select>
+      </div>
+      <button>+</button>
     </form>
   );
 }

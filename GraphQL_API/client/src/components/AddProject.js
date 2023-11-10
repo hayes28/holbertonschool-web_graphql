@@ -28,13 +28,19 @@ function AddProject(props) {
         title: inputsProject.title,
         weight: inputsProject.weight,
         description: inputsProject.description,
-  },
-  refetchQueries: [{ query: getProjectsQuery }]
-});
-}
+      },
+      refetchQueries: [{ query: getProjectsQuery }],
+    }).then(({ data }) => {
+      console.log('Project added:', data);
+      // Optionally update UI instantly here if needed
+    }).catch((error) => {
+      console.error('Error adding project:', error);
+    });
+  };
 
-  return (
-  <form className="project" id="add-project" onSubmit={submitForm1}>
+
+  return(
+  <form className = "project" id = "add-project" onSubmit = { submitForm1 } >
     <div className = "field" >
     <label> Project title: </label>
     <input
